@@ -1,6 +1,6 @@
 class ErrorBilling {
 
-    static TOKEN_NOT_FOUND = "TOKEN_NOT_FOUND"
+    static TOKEN_NOT_FOUND = 'TOKEN_NOT_FOUND'
     static OTHER_ERROR = "OTHER_ERROR"
         /**
          * 

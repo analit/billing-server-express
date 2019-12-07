@@ -1,11 +1,10 @@
-const Response = require('./Response')
-const ErrorBilling = require('./ErrorBilling');
+const ErrorBilling = require( './ErrorBilling' );
 
-class Login extends Response {
+class Login {
 
-    createBody() {
+    createBody( requestBody ) {
         // throw new ErrorBilling(ErrorBilling.TOKEN_NOT_FOUND, "")
-        const body = {
+        return {
             user: {
                 id: 123456789,
                 currency: "EUR"
@@ -15,7 +14,6 @@ class Login extends Response {
                 version: 0
             }
         }
-        return {...super.createBody(), ...body }
     }
 }
 

@@ -9,7 +9,8 @@ const router = express.Router();
 router.post('/', function(req, res, next) {
     const response = (new ResponseFactory()).getResponse(req.body.name, req.body.id)
     try {
-        const responseBody = response.createBody()
+        const responseBody = response.createBody(req.body)
+        responseBody.id = req.body.id
         res.json(responseBody)
     } catch (e) {
         if (e instanceof ErrorBulling) {
