@@ -1,0 +1,18 @@
+POST http://localhost:3000/api/create-user
+Content-Type: application/json
+
+{
+    "currency": "ETH",
+    "balance": "100",
+    "token": "1234567898765432-ETH",
+    "id": 123456
+}
+###
+
+POST http://localhost:3000/api/delete-user
+Content-Type: application/json
+
+{
+    "token": "1234567898765432-ETH"
+}
+

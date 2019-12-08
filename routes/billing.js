@@ -1,11 +1,15 @@
-const express = require('express');
+const express = require('express')
 const ResponseFactory = require('../service/response/ResponseFactory')
 const ErrorBulling = require('../service/response/ErrorBilling')
+const checkCash = require('../middleware/checkCacheBilling')
+const checkToken = require('../middleware/checkToken')
 
 const router = express.Router();
 
+router.use(checkCash)
+router.use(checkToken)
 
-/* GET home page. */
+
 router.post('/', function(req, res, next) {
     const response = (new ResponseFactory()).getResponse(req.body.name, req.body.id)
     try {
