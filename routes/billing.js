@@ -1,6 +1,6 @@
 const express = require('express')
-const ResponseFactory = require('../service/response/ResponseFactory')
-const ErrorBulling = require('../service/response/ErrorBilling')
+const ResponseFactory = require('../services/response/ResponseFactory')
+const ErrorBulling = require('../services/response/ErrorBilling')
 const checkCash = require('../middleware/checkCacheBilling')
 const checkToken = require('../middleware/checkToken')
 

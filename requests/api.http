@@ -15,4 +15,24 @@ Content-Type: application/json
 {
     "token": "1234567898765432-ETH"
 }
+###
 
+POST http://localhost:3000/api/cashin-user
+Content-Type: application/json
+
+{
+    "token": "1234567898765432-ETH",
+    "amount": 150,
+    "id": 123457
+}
+###
+
+POST http://localhost:3000/api/cashout-user
+Content-Type: application/json
+
+{
+    "token": "1234567898765432-ETH",
+    "amount": 1500,
+    "id": 123457
+}
+###
