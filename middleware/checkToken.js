@@ -1,26 +1,13 @@
 const User = require("../models/user")
+const ErrorBilling = require("../services/response/ErrorBilling")
 
 module.exports = function (req, res, next) {
-    User.findOne({ token: req.body.token }).then(user => {
-        if (/create-user/.test(req.path)){
-            if (user) {
-                return res.json({
-                    status: 'error',
-                    message: "user already exists"
-                })
-            } else {
-                return next();
-            }
+    User.findOne({ token: req.body.token }).then(
+        user => {
+            if (!user)
+                next(new ErrorBilling(ErrorBilling.TOKEN_NOT_FOUND, "token not found!"))
+            else
+                next()
         }
-        if (!user) {
-            return res.json({
-                status: 'error',
-                message: "user not found"
-            })
-        }
-        req.user = user;
-        next();
-    }).catch(error => {
-        next(error)
-    })
+    ).catch(error => next(error))
 }

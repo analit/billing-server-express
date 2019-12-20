@@ -1,20 +1,24 @@
-const ErrorBilling = require( './ErrorBilling' );
+const User = require("../../models/user");
 
 class Login {
-
-    createBody( requestBody ) {
-        // throw new ErrorBilling(ErrorBilling.TOKEN_NOT_FOUND, "")
+    /**
+     * @param {Object} requestBody 
+     * @param {string} requestBody.token
+     */
+    async createBody(requestBody) {
+        const user = await User.findOne({ token: requestBody.token });
         return {
             user: {
-                id: 123456789,
-                currency: "EUR"
+                id: user._id.toString(),
+                currency: user.currency
             },
             balance: {
-                value: 1000,
-                version: 0
+                value: user.balance,
+                version: user.version
             }
         }
     }
+
 }
 
 module.exports = Login;

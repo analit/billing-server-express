@@ -1,7 +1,9 @@
 const express = require('express')
 const User = require('../models/user')
+const checkUser = require('../middleware/checkUser')
 
 const router = express.Router()
+router.use(checkUser)
 
 router.post('/create-user', function (req, res, next) {
 

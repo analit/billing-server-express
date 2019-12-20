@@ -4,7 +4,7 @@ Content-Type: application/json
 {
     "currency": "ETH",
     "balance": "100",
-    "token": "1234567898765432-ETH",
+    "token": "1234567898765432-ET",
     "id": 123456
 }
 ###

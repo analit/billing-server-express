@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const ErrorBilling = require('./services/response/ErrorBilling')
 
 require('dotenv').config();
 require('./services/db');
@@ -12,7 +13,6 @@ const usersRouter = require('./routes/users');
 
 const billingRouter = require('./routes/billing')
 const apiRouter = require('./routes/api')
-const checkTokenMiddleware = require('./middleware/checkToken');
 
 const app = express();
 
@@ -26,13 +26,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-
 app.use('/billing', billingRouter);
-app.use('/api', checkTokenMiddleware, apiRouter);
+app.use('/api', apiRouter);
+
+// catch billing error
+app.use(function (err, req, res, next) {
+    if (err instanceof ErrorBilling) {
+        res.json({
+            id: req.body.id,
+            error: { type: err.type, message: err.message }
+        })
+    } else {
+        next(err)
+    }
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
