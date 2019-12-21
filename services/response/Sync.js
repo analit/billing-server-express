@@ -1,9 +1,9 @@
 module.exports = class Sync {
-    createBody( requestBody ) {
+    createBody( req ) {
         return {
             balance: {
-                value: 0,
-                version: 0
+                value: req.user.balance,
+                version: req.user.version
             }
         }
     }

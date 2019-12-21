@@ -8,10 +8,10 @@ const router = express.Router();
 router.use(checkCash)
 router.use(checkToken)
 
-router.post('/', async function (req, res, next) {
-    const response = (new ResponseFactory()).getResponse(req.body.name, req.body.id)
+router.post('/', async function(req, res, next) {
     try {
-        const responseBody = await response.createBody(req.body)
+        const response = (new ResponseFactory()).getResponse(req.body.name)
+        const responseBody = await response.createBody(req)
         responseBody.id = req.body.id
         res.json(responseBody)
     } catch (e) {

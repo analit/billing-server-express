@@ -1,22 +1,17 @@
 const User = require("../models/user")
+const ErrorApi = require('../services/response/ErrorApi')
 
-module.exports = function (req, res, next) {
+module.exports = function(req, res, next) {
     User.findOne({ token: req.body.token }).then(user => {
-        if (/create-user/.test(req.path)){
+        if (/create-user/.test(req.path)) {
             if (user) {
-                return res.json({
-                    status: 'error',
-                    message: "user already exists"
-                })
+                return next(new ErrorApi("user already exists"))
             } else {
                 return next();
             }
         }
         if (!user) {
-            return res.json({
-                status: 'error',
-                message: "user not found"
-            })
+            return next(new ErrorApi("user not found"))
         }
         req.user = user;
         next();

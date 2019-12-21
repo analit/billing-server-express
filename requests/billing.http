@@ -6,7 +6,7 @@ Content-Type: application/json
     "id": "123456789",
     "timestamp": "2019-10-22 24:00:12",
     "session": "aserdfsh65764",
-    "token": "1234567898765432-ETH"
+    "token": "1234567898765432-ET"
 }
 
 ###
@@ -19,9 +19,9 @@ Content-Type: application/json
     "id": "123456789",
     "timestamp": "2019-10-22 24:00:12",
     "session": "aserdfsh65764",
-    "plus": 10,
-    "minus": 0,
-    "token": "123456789"
+    "plus": 0,
+    "minus": 20,
+    "token": "1234567898765432-ET"
 }
 
 ###
@@ -34,7 +34,7 @@ Content-Type: application/json
   "id": "123456789",
   "timestamp": "2019-10-22 24:00:12",
   "session": "aserdfsh65764",
-  "token": "123456789"
+  "token": "1234567898765432-ET"
 }
 
 ###

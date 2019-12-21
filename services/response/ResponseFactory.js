@@ -1,13 +1,13 @@
-const Login = require( './Login' )
-const Transaction = require( './Transaction' )
-const Sync = require( './Sync' )
+const Login = require('./Login')
+const Transaction = require('./Transaction')
+const Sync = require('./Sync')
+const ErrorBilling = require('./ErrorBilling')
 
 class ResponseFactory {
     /**
      * @param {string} name
-     * @param {string} id
      */
-    getResponse( name, id ) {
+    getResponse(name) {
         switch (name) {
             case "login":
                 return new Login()
@@ -16,7 +16,7 @@ class ResponseFactory {
             case "sync":
                 return new Sync()
             default:
-                throw new Error( "Method not found." )
+                throw new ErrorBilling(ErrorBilling.OTHER_ERROR, "Method not found.")
         }
     }
 }

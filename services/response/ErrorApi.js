@@ -4,7 +4,9 @@ class ErrorApi extends Error {
      * @param {string} message 
      */
     constructor(message) {
-        this.message = message;
         super(message);
+        this.message = message;
     }
 }
+
+module.exports = ErrorApi

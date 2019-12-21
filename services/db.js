@@ -6,6 +6,9 @@ mongoose.connect(process.env.DB_CONNECTION, {
 });
 
 mongoose.connection.on('connected', () => console.log("Connection to mongoose successfull!"))
-mongoose.connection.on('error', (error) => { console.log(error); process.exit(1) })
+mongoose.connection.on('error', (error) => {
+    console.log("Mongo connect error!", error);
+    process.exit(1)
+})
 
 module.exports = mongoose.connection

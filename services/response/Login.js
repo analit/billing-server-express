@@ -2,11 +2,10 @@ const User = require("../../models/user");
 
 class Login {
     /**
-     * @param {Object} requestBody 
-     * @param {string} requestBody.token
+     * @param {Request} req
      */
-    async createBody(requestBody) {
-        const user = await User.findOne({ token: requestBody.token });
+    createBody(req) {
+        const user = req.user
         return {
             user: {
                 id: user._id.toString(),

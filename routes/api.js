@@ -5,7 +5,7 @@ const checkUser = require('../middleware/checkUser')
 const router = express.Router()
 router.use(checkUser)
 
-router.post('/create-user', function (req, res, next) {
+router.post('/create-user', function(req, res, next) {
 
     const user = new User({
         token: req.body.token,
@@ -28,7 +28,7 @@ router.post('/create-user', function (req, res, next) {
         .catch((error) => next(error));
 })
 
-router.post('/delete-user', function (req, res, next) {
+router.post('/delete-user', function(req, res, next) {
     User.deleteOne({ token: req.body.token })
         .then(() => res.json({
             status: "success",
@@ -38,7 +38,7 @@ router.post('/delete-user', function (req, res, next) {
         .catch(error => next(error))
 })
 
-router.post('/cashin-user', function (req, res, next) {
+router.post('/cashin-user', function(req, res, next) {
     const user = req.user;
     user.balance += req.body.amount;
     user.version += 1;
@@ -56,7 +56,7 @@ router.post('/cashin-user', function (req, res, next) {
         .catch(error => next(error))
 })
 
-router.post('/cashout-user', function (req, res, next) {
+router.post('/cashout-user', function(req, res, next) {
     const user = req.user;
     if (user.balance < req.body.amount) {
         return res.json({
@@ -80,7 +80,7 @@ router.post('/cashout-user', function (req, res, next) {
         .catch(error => next(error))
 })
 
-router.post('/get-balance', function (req, res, next) {
+router.post('/get-balance', function(req, res, next) {
 
 })
 
