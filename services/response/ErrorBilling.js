@@ -5,11 +5,11 @@ class ErrorBilling {
     static LOW_BALANCE = "LOW_BALANCE"
     
     /**
-     * @param {string} type 
+     * @param {string} code
      * @param {string} message 
      */
-    constructor(type, message) {
-        this.type = type
+    constructor(code, message) {
+        this.code = code
         this.message = message
     }
 }

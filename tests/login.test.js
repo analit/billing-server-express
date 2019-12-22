@@ -3,29 +3,15 @@ const app = require("../app")
 const dateFormat = require("dateformat")
 const ErrorBilling = require("../services/response/ErrorBilling")
 const dbConnection = require('../services/db');
+const functions = require('./functions');
 
 describe("Login", () => {
-    beforeEach(async(done) => {
-        const response = await request(app).post("/api/create-user").send({
-                "currency": "USD",
-                "balance": 100,
-                "token": "1234567898765432-ETS",
-                "id": 123456
-            })
-            // console.log(response.statusCode, response.body)
-        done()
-    });
+    beforeEach(functions.createDefaultUser);
 
-    afterEach(async(done) => {
-        const response = await request(app).post("/api/delete-user").send({
-                "token": "1234567898765432-ETS"
-            })
-            // console.log(response.statusCode, response.body)
-        done();
-    })
+    afterEach(functions.removeDefaultUser)
 
-    test("login fail", async(done) => {
-        const id = Math.ceil(Math.random() * 1000000000);
+    test("login fail", async (done) => {
+        const id = functions.generateId();
         const loginRequest = {
             name: "login",
             id: id,
@@ -36,7 +22,7 @@ describe("Login", () => {
         const loginErrorResponse = {
             id: id,
             error: {
-                type: ErrorBilling.TOKEN_NOT_FOUND,
+                code: ErrorBilling.TOKEN_NOT_FOUND,
             }
         }
         const response = await request(app).post("/billing").send(loginRequest)
@@ -45,7 +31,7 @@ describe("Login", () => {
         done();
     })
 
-    test('login successfull', async(done) => {
+    test('login successfull', async (done) => {
         const id = Math.ceil(Math.random() * 1000000000);
         const loginRequest = {
             name: "login",
@@ -63,7 +49,6 @@ describe("Login", () => {
                 value: 100,
                 version: 0
             }
-
         }
         const response = await request(app).post("/billing").send(loginRequest)
         expect(response.statusCode).toBe(200)

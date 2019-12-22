@@ -38,7 +38,7 @@ app.use(function(err, req, res, next) {
     if (err instanceof ErrorBilling) {
         res.json({
             id: req.body.id,
-            error: { type: err.type, message: err.message }
+            error: { code: err.code, message: err.message }
         })
     } else if (err instanceof ErrorApi) {
         res.json({
