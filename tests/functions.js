@@ -16,17 +16,17 @@ module.exports.date = () => {
 
 module.exports.createDefaultUser = async (done) => {
     await request(app).post("/api/create-user").send({
-        "currency": "USD",
-        "balance": 100,
-        "token": TOKEN,
-        "id": 123456
+        currency: "USD",
+        balance: 100,
+        token: TOKEN,
+        id: 123456
     })
     done()
 }
 
 module.exports.removeDefaultUser = async (done) => {
     const response = await request(app).post("/api/delete-user").send({
-        "token": TOKEN
+        token: TOKEN
     })
     done();
 }

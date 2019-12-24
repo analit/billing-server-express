@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../app");
 const functions = require('./functions');
 const ErrorBilling = require("../services/response/ErrorBilling");
+const dbConnection = require('../services/db');
 
 
 describe('Transaction', () => {
@@ -32,4 +33,9 @@ describe('Transaction', () => {
         expect(response.body).toMatchObject(transactionResponse);
         done()
     })
+})
+
+afterAll(async done => {
+    await dbConnection.close();
+    done();
 })
