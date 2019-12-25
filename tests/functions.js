@@ -2,7 +2,7 @@ const dateFormat = require('dateformat')
 const app = require("../app")
 const request = require("supertest")
 
-const TOKEN = "1234567898765432-ETS"
+const TOKEN = "1234567898765432-TEST"
 
 module.exports.generateId = () => {
     return Math.ceil(Math.random() * 1000000000)

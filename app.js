@@ -7,7 +7,7 @@ const ErrorBilling = require('./services/response/ErrorBilling')
 const ErrorApi = require('./services/response/ErrorApi')
 
 require('dotenv').config();
-require('./services/db');
+const dbConnection = require('./services/db');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -23,7 +23,7 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -38,7 +38,7 @@ app.use(function (err, req, res, next) {
     if (err instanceof ErrorBilling) {
         res.json({
             id: req.body.id,
-            error: { code: err.code, message: err.message }
+            error: {code: err.code, message: err.message}
         })
     } else if (err instanceof ErrorApi) {
         res.json({
@@ -67,8 +67,9 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
-app.closeDb = async function () {
-    return await dbConnection.close();
+app.closeDbConnection = async function (callback) {
+    await dbConnection.close();
+    callback();
 }
 
 module.exports = app;

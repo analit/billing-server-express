@@ -10,7 +10,7 @@ module.exports = class Transaction {
             throw new ErrorBilling(ErrorBilling.LOW_BALANCE, "low balance")
         }
 
-        user.balance += req.body.plus
+        user.balance += req.body.plus;
         user.balance -= req.body.minus
         user.version += 1
 
