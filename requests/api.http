@@ -4,7 +4,7 @@ Content-Type: application/json
 {
     "currency": "ETH",
     "balance": "100",
-    "token": "1234567898765432-ETT",
+    "token": "1234567898765432-ETE",
     "id": 123456
 }
 ###
@@ -21,9 +21,9 @@ POST http://localhost:3000/api/cashin-user
 Content-Type: application/json
 
 {
-    "token": "1234567898765432-ETH",
+    "token": "1234567898765432-ETE",
     "amount": 150,
-    "id": 123457
+    "id": 123459
 }
 ###
 

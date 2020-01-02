@@ -2,9 +2,10 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const logger = require('./services/logger');
 const ErrorBilling = require('./services/response/ErrorBilling')
 const ErrorApi = require('./services/response/ErrorApi')
+const cache = require("./middleware/cache")
 
 require('dotenv').config();
 const dbConnection = require('./services/db');
@@ -21,14 +22,15 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.post('*', logger.request, cache.get);
 
 app.use('/billing', billingRouter);
 app.use('/api', apiRouter);
@@ -36,20 +38,28 @@ app.use('/api', apiRouter);
 // catch application error
 app.use(function (err, req, res, next) {
     if (err instanceof ErrorBilling) {
-        res.json({
+        res.body = {
             id: req.body.id,
-            error: {code: err.code, message: err.message}
-        })
+            error: { code: err.code, message: err.message }
+        }
+        next()
     } else if (err instanceof ErrorApi) {
-        res.json({
+        res.body = {
             status: 'error',
-            error: err.message
-        })
+            message: err.message
+        }
+        next();
     } else {
         next(err)
     }
-
 });
+
+app.post('*', logger.response, cache.set);
+
+/** send response */
+app.post('*', function (req, res, next) {
+    (res.body && res.json(res.body)) || next()
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
