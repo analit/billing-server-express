@@ -16,15 +16,13 @@ router.post('/create-user', function (req, res, next) {
 
     user.save()
         .then((user) => {
-            const response = {
+            res.body = {
                 status: "success",
                 message: "user was created",
                 currency: user.currency,
                 balance: user.balance,
-                token: user.token,
-                "trx-id": "1157603850"
+                token: user.token
             }
-            res.body = response;
             next();
         })
         .catch((error) => next(error));
@@ -32,11 +30,13 @@ router.post('/create-user', function (req, res, next) {
 
 router.post('/delete-user', function (req, res, next) {
     User.deleteOne({ token: req.body.token })
-        .then(() => res.json({
-            status: "success",
-            message: "user was deleted",
-            "trx-id": "1157603850"
-        }))
+        .then(() => {
+            res.body = {
+                status: "success",
+                message: "user was deleted"
+            }
+            next();
+        })
         .catch(error => next(error))
 })
 
@@ -46,15 +46,13 @@ router.post('/cashin-user', function (req, res, next) {
     user.version += 1;
     user.save()
         .then(user => {
-            const response = {
+            res.body = {
                 status: "success",
                 message: "balance was updated",
                 token: user.token,
                 currency: user.currency,
-                balance: user.balance,
-                "trx-id": "1157603851"
+                balance: user.balance
             }
-            res.body = response;
             next();
         })
         .catch(error => next(error))
@@ -63,29 +61,32 @@ router.post('/cashin-user', function (req, res, next) {
 router.post('/cashout-user', function (req, res, next) {
     const user = req.user;
     if (user.balance < req.body.amount) {
-        return res.json({
-            status: "error",
-            message: "low balance"
-        })
+        return next(new ErrorApi('low balance'));
     }
     user.balance -= req.body.amount;
     user.version += 1;
     user.save()
         .then(user => {
-            res.json({
+            res.body = {
                 status: "success",
                 message: "balance was updated",
                 token: user.token,
                 currency: user.currency,
-                balance: user.balance,
-                "trx-id": "1157603851"
-            })
+                balance: user.balance
+            }
+            next()
         })
         .catch(error => next(error))
 })
 
 router.post('/get-balance', function (req, res, next) {
-
+    const user = req.user;
+    res.body = {
+        status: "success",
+        token: user.token,
+        currency: user.currency,
+        balance: user.balance
+    }
 })
 
 module.exports = router

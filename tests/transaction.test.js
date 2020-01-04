@@ -3,7 +3,6 @@ const app = require("../app");
 const functions = require('./functions');
 const ErrorBilling = require("../services/response/ErrorBilling");
 
-
 describe('Transaction', () => {
 
     beforeEach(functions.createDefaultUser);
@@ -60,16 +59,17 @@ describe('Transaction', () => {
     });
 
     test('Balance minus', async(done) => {
-        const id = functions.generateId();
+
         let transactionRequest = {
             name: 'transaction',
-            id: id,
+            id: functions.generateId(),
             timestamp: functions.date(),
             session: 'aserdfsh65764',
             plus: 100,
             minus: 0,
             token: functions.TOKEN
         };
+        const id = functions.generateId();
         const transactionResponse = {
             id: id,
             balance: {
@@ -79,7 +79,7 @@ describe('Transaction', () => {
         };
 
         await request(app).post("/billing").send(transactionRequest);
-        transactionRequest = {...transactionRequest, ... { plus: 0, minus: 50 } };
+        transactionRequest = {...transactionRequest, ... { plus: 0, minus: 50, id: id } };
         const response = await request(app).post("/billing").send(transactionRequest);
         expect(response.statusCode).toBe(200);
         expect(response.body).toMatchObject(transactionResponse);

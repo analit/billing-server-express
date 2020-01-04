@@ -7,7 +7,6 @@ const functions = require('./functions');
 
 describe("Login", () => {
     beforeEach(functions.createDefaultUser);
-
     afterEach(functions.removeDefaultUser)
 
     test("login fail", async (done) => {
@@ -38,7 +37,7 @@ describe("Login", () => {
             id: id,
             timestamp: dateFormat(new Date(), "yyyy-mm-dd H:MM:ss"),
             session: 'aserdfsh65764',
-            token: '1234567898765432-ETS'
+            token: functions.TOKEN
         }
         const loginResponse = {
             id: id,

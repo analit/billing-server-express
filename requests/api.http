@@ -13,7 +13,8 @@ POST http://localhost:3000/api/delete-user
 Content-Type: application/json
 
 {
-    "token": "1234567898765432-ETH"
+    "token": "1234567898765432-TEST",
+    "id": 1234478
 }
 ###
 

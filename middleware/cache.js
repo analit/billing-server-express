@@ -1,9 +1,9 @@
 const Cache = require("node-cache");
 
-const cache = new Cache({ stdTTL: 5 * 60 })
+const cache = new Cache({stdTTL: 5 * 60})
 
 function getCacheKey(req) {
-    const prefix =  /api/.test(req.path) ? "api" : "billing";
+    const prefix = /api/.test(req.path) ? "api" : "billing";
     return `${prefix}_${req.body.id}`;
 }
 
@@ -16,6 +16,14 @@ module.exports.get = function (req, res, next) {
 }
 
 module.exports.set = function (req, res, next) {
-    cache.set(getCacheKey(req), res.body)
+    /** save api response */
+    if (res.body && res.body.status) {
+        res.body.status === "success" && cache.set(getCacheKey(req), res.body);
+        return next();
+    }
+
+    /** save billing response */
+    res.body && !res.body.error && cache.set(getCacheKey(req), res.body)
+
     next();
 }
